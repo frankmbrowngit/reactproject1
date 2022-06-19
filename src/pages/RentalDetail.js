@@ -4,10 +4,22 @@ import { connect } from "react-redux/es/exports";
 import { fetchRentalById } from 'actions'
 
 import RentalInfo from "Components/rental/RentalInfo";
+import TomMap from "Components/map/TomMap";
 class RentalDetail extends React.Component {
     componentDidMount() {
         const { id }= this.props.match.params;
         this.props.dispatch(fetchRentalById(id));
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch({type: 'UNMOUNT_RENTAL'});
+    }
+
+
+
+    getLocation() {
+        const { rental : {street, city}} = this.props;
+        return street && city && city + ', ' + street
     }
     render() {
         const { rental, isFetching } = this.props;
@@ -20,8 +32,7 @@ class RentalDetail extends React.Component {
                         <img src={rental.image} alt={rental.title}/>
                     </div>
                     <div className="col-md-6">
-                        {/* <!-- TODO: Display rental Map --> */}
-                        <img src={rental.image} alt={rental.title}/>
+                        <TomMap location = {this.getLocation()}/>
                     </div>
                     </div>
                 </div>

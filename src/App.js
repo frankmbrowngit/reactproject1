@@ -5,20 +5,23 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { initStore } from "./store/index.js";
 import { AuthProvider, useAuth } from "providers/AuthProvider.js";
+import { MapProvider } from "providers/MapProvider";
 const store = initStore();
 const Providers = ({ children }) => (
     <Provider store={store}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+            <MapProvider apiKey="NWgf2FGVMgldsHlSraMTAfOGIpG0G5D3">{children}</MapProvider>
+        </AuthProvider>
     </Provider>
 );
 const BwmApp = () => {
     const authService = useAuth();
     useEffect(() => {
         authService.checkAuthState();
-    }, [authService])
+    }, [authService]);
     return (
         <Router>
-            <Header logout = {authService.signOut}/>
+            <Header logout={authService.signOut} />
             <RoutesTo />
         </Router>
     );

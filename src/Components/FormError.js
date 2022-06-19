@@ -6,4 +6,6 @@ const FormError = ({children, errors, name}) => {
         <div className = "alert alert-danger" children = {children(error.message)}></div>
     )
 }
-export default FormError;
+export default FormError;         
+
+

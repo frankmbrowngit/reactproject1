@@ -1,7 +1,7 @@
 exports.rentals = [{
     title: "Nice view on ocean",
     city: "San Francisco",
-    street: "Main street",
+    street: "Lombard Street",
     category: "condo",
     image: "https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg",
     numOfRooms: 4,

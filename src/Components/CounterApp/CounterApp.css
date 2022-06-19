@@ -1,0 +1,14 @@
+.counter-app {
+    position: absolute;
+    top:50%;
+    left:50%;
+    text-align:center;
+    transform: translate(-50%,-50%);
+}
+.counter-app h1 {
+    margin: 0;
+}
+.counter-app .value {
+    font-size: 7em;
+    margin: 0;
+}

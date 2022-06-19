@@ -4,12 +4,13 @@ const rentalSchema = new Schema({
     title: {type: String, required: true, maxlength: [128,'Invalid Length! Maximum is 128 characters']},
     city: {type: String, required: true, lowercase: true},
     street: {type: String, required: true, lowercase: true, minLength: [4,'Minimum is 4 characters'], maxlength: [128,'Invalid Length! Maximum is 128 characters']},
-    category: {type: String, required: true, lowercase: true},
+    category: {type: String, required: false, lowercase: true},
     image: {type: String, required: true},
     numOfRooms: Number,
     shared: Boolean,
     description: {type: String, required: true},
     dailyPrice: Number,
+    owner: {type: Schema.Types.ObjectId, ref: 'User'},
     createdAt: {type: Date, default: Date.now }
 });
 rentalSchema.statics.sendError = function(res,config) {

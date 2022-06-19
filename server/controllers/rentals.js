@@ -25,18 +25,13 @@ exports.getRentalById = (req,res) => { // (request, response)
 
 exports.createRental = (req,res) => {
     const rentalData = req.body;
-    // const newRental = new Rental(rentalData);
-    // newRental.save((error,createdRental) => {
-    //     if (error) {
-    //         res.status(422).send({errors: [{title: 'Rental Error!', message: 'Cannot create rental'}]});
-    //     }
-    //     return res.json({message: `Rental with id:${createdRental._id} was added!`});
+    rentalData.owner = res.locals.user;
     // });
     Rental.create(rentalData, (error,createdRental) => {
         if (error) {
             return res.mongoError(error);
         }
-        return res.json({message: `Rental with id:${createdRental._id} was added!`});
+        return res.json(createdRental);
     })
 };
 

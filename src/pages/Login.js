@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import { withAuth } from 'providers/AuthProvider';
 // eslint-disable-next-line
 import { connect } from "react-redux/es/exports";
-
+import '../styles/_Forms.scss'
 
 class Login extends React.Component {
     state = {

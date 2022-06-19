@@ -5,7 +5,7 @@ const AuthRoute = ({children, ...rest }) => {
     const authService = useAuth();
     const onlyChild = React.Children.only(children);
     if (authService.isAuthenticated()) {
-        return <Route {...rest} render={(props) => React.cloneElement(onlyChild,{...rest,...props})} />
+        return <Route {...rest} render={(props) => React.cloneElement(children,{...rest,...props})} />
     } else {
         return <Redirect to={{pathname: '/login'}}/>;
     }

@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux/es/exports";
 import { fetchRentalById } from "actions";
-
+import BookingReserve from "Components/booking/BookingReserve";
 import RentalInfo from "Components/rental/RentalInfo";
 import TomMap from "Components/map/TomMap";
 class RentalDetail extends React.Component {
@@ -23,7 +23,7 @@ class RentalDetail extends React.Component {
     }
     render() {
         const { rental, isFetching } = this.props;
-        if (isFetching) {
+        if (isFetching || !rental._id) {
             return null;
         }
         return (
@@ -44,7 +44,7 @@ class RentalDetail extends React.Component {
                         <div className="col-md-8">
                             <RentalInfo rental={rental} />
                         </div>
-                        <div className="col-md-4"> BOOKING</div>
+                        <div className="col-md-4"> <BookingReserve rental = {rental}/> </div>
                     </div>
                 </div>
             </section>

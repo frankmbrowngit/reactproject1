@@ -8,6 +8,7 @@ import React from "react";
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 import "./index.scss";
+import 'bootstrap-daterangepicker/daterangepicker.css';
 
 import App from './App.js';
 // const h2Element = React.createElement("h2", null, "What a nice day");

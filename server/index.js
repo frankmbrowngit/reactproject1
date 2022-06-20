@@ -2,6 +2,7 @@
 const express = require('express');
 const rentalRoutes = require('./routes/rentals.js');
 const usersRoutes = require('./routes/users.js');
+const bookingRoutes = require('./routes/bookings.js');
 const { onlyAuthUser } = require('./controllers/users');
 const app = express();
 const bodyParser = require('body-parser');
@@ -14,19 +15,13 @@ const PORT = process.env.PORT || 3001;
 //models -- need to import models befor connecting to DB
 require('./models/rental.js');
 require('./models/user.js');
-
+require('./models/booking.js');
 
 mongoose.connect(config.DB_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true
 });
-mongoose.connection.once('open', () => {
-    console.log("Connected to MongoDB");
-    app.listen(PORT, () => {
-        console.log("Server is listening on port: ", PORT);
-    });
-    
-});
+
 // Middleware
 app.use(bodyParser.json());
 app.use(provideErrorHandler);
@@ -50,7 +45,13 @@ app.get('/api/v1/secret', onlyAuthUser, (req, res) => {
 // Api Routes
 app.use('/api/v1/rentals',rentalRoutes);
 app.use('/api/v1/users',usersRoutes);
+app.use('/api/v1/bookings',bookingRoutes);
 
 
-
-
+mongoose.connection.once('open', () => {
+    console.log("Connected to MongoDB");
+    app.listen(PORT, () => {
+        console.log("Server is listening on port: ", PORT);
+    });
+    
+});

@@ -35,17 +35,26 @@ exports.createRental = (req,res) => {
     })
 };
 
-// exports.deleteRental = (req,res) => {
-//     const  rentalId = req.params.rentalId;
-//     const rentalIndex = rentals.findIndex(r => r._id === rentalId);
-//     rentals.splice(rentalIndex,1);
-//     return res.json({message: `Rental with id:${rentalId} was removed!`});
-// };
+// middlewares
 
-// exports.updateRental = (req,res) => {
-//     const  newRental = req.body;
-//     const rentalToUpdate = rentals.findIndex(r => r._id === newRental._id);
-//     rentals[rentalToUpdate].city = newRental.city;
-//     rentals[rentalToUpdate].title = newRental.title;
-//     return res.json({message: `Rental with id:${newRental._id} was removed!`});
-// };
+exports.isUserRentalOwner = (req,res,next) => {
+    const { rental } = req.body;
+    const user = res.locals.user;
+
+    Rental
+    .findById(rental)
+    .populate('owner')
+    .exec((error, foundRental) => {
+        if (error) {return res.mongoError(error);}
+        else if (foundRental.owner.id === user.id) {
+            return res
+            .sendApiError(
+                {
+                    title: "Invalid User",
+                    detail: 'Cannot create booking on your rental'
+                }
+            )
+        }
+        next();
+    });
+}

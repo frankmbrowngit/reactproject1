@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import React from "react";
 // It matters the order in which you import the css files
 // Css files that are imported later override things that are imported earlier
@@ -19,5 +19,5 @@ import App from './App.js';
 //   h2Element
 // );
 // debugger
-const rootElement = document.getElementById("fmbApp");
-ReactDOM.render(<App/>, rootElement);
+const root = ReactDOM.createRoot(document.getElementById("fmbApp"));
+root.render(<App/>);

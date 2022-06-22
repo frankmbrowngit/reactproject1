@@ -8,12 +8,16 @@ import SecretPage from "pages/SecretPage.js";
 import AuthRoute from "Components/auth/AuthRoute.js";
 import GuestRoute from "Components/auth/GuestRoute.js";
 import RentalNew from "pages/RentalNew.js";
+import RentalHomeSearch from "pages/RentalHomeSearch.js";
 const RoutesTo = () => {
     return (
         <div className="container bwm-container">
             <Switch>
                 <Route exact path="/" >
                     <RentalHome />
+                </Route>
+                <Route exact path="/rentals/:location/homes" >
+                    <RentalHomeSearch />
                 </Route>
                 <GuestRoute exact path="/login" >
                     <Login />

@@ -1,12 +1,19 @@
 import React from "react";
 import RentalAssets from "./RentalAssets";
-import {capitalize} from 'helpers/functions.js';
-const RentalInfo = ( { rental }) => {
+import { capitalize } from "helpers/functions.js";
+const RentalInfo = ({ rental }) => {
     return (
         <div className="rental">
             <h2 className={`rental-type type-${rental.category}`}>
                 {rental.shared ? "Shared" : "Single"} {rental.category}
             </h2>
+            {rental.owner &&
+            <div className="rental-owner">
+                <span>Rental Owner:</span>
+                <span>{rental.owner.username} </span>
+                <span>{rental.owner.email}</span>
+            </div>
+            }
             <h1 className="rental-title">{rental.title}</h1>
             <h2 className="rental-city">{capitalize(rental.city)}</h2>
             <div className="rental-room-info">

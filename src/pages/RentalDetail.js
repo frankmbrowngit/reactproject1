@@ -5,6 +5,7 @@ import { fetchRentalById } from "actions";
 import BookingReserve from "Components/booking/BookingReserve";
 import RentalInfo from "Components/rental/RentalInfo";
 import TomMap from "Components/map/TomMap";
+
 class RentalDetail extends React.Component {
     componentDidMount() {
         const { id } = this.props.match.params;
@@ -22,7 +23,7 @@ class RentalDetail extends React.Component {
         return street && city && city + ", " + street;
     }
     render() {
-        const { rental, isFetching } = this.props;
+        const { rental, isFetching, isAuth } = this.props;
         if (isFetching || !rental._id) {
             return null;
         }
@@ -42,9 +43,11 @@ class RentalDetail extends React.Component {
                 <div className="details-section">
                     <div className="row">
                         <div className="col-md-8">
-                            <RentalInfo rental={rental} />
+                            <RentalInfo rental={rental} /> 
                         </div>
-                        <div className="col-md-4"> <BookingReserve rental = {rental}/> </div>
+                        <div className="col-md-4"> 
+                        <BookingReserve rental = {rental} isAuth={isAuth}/>  
+                        </div>
                     </div>
                 </div>
             </section>
@@ -52,9 +55,10 @@ class RentalDetail extends React.Component {
     }
 }
 
-const mapStateToProps = ({ rental }) => ({
+const mapStateToProps = ({ rental, auth: {isAuth} }) => ({
     rental: rental.item,
     isFetching: rental.isFetching,
+    isAuth : isAuth
 });
 
 const RentalDetailWithRouter = withRouter(RentalDetail);

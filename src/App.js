@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { initStore } from "./store/index.js";
 import { AuthProvider, useAuth } from "providers/AuthProvider.js";
 import { MapProvider } from "providers/MapProvider";
+import { ToastContainer } from 'react-toastify';
 const store = initStore();
 const Providers = ({ children }) => (
     <Provider store={store}>
@@ -29,6 +30,7 @@ const BwmApp = () => {
 const App = () => {
     return (
         <Providers>
+        <ToastContainer />
             <BwmApp />
         </Providers>
     );

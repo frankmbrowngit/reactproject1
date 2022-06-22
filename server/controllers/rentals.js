@@ -1,26 +1,26 @@
 const Rental = require('../models/rental.js');
 
 
-exports.getRentals = (req,res) => { // (request, response)
+exports.getRentals = async (req,res) => { // (request, response)
+    const city = req.query.city;
+    const query = city ? {city: city.toLowerCase()} : {};
     
-    Rental.find({}, (err, foundRentals) => {
-        if (err) {
-            return res.mongoError(err);
-        } else {
-            return res.json(foundRentals);
-        }
-    });
+    try {
+        const rentals = await Rental.find(query);
+        return res.json(rentals);
+    } catch(error) {
+        return res.mongoError(error);
+    }
 };
 
-exports.getRentalById = (req,res) => { // (request, response)
+exports.getRentalById = async (req,res) => { // (request, response)
     const rentalId  = req.params.rentalId;
-    Rental.findById(rentalId, (err, foundRental) => {
-        if (err) {
-            return res.mongoError(err);
-        } else {
-            return res.json(foundRental);
-        }
-    })
+    try {
+        const rental = await Rental.findById(rentalId).populate('owner','-password -_id');
+        return res.json(rental);
+    } catch (error) {
+        return res.mongoError(error);
+    }
 };
 
 exports.createRental = (req,res) => {

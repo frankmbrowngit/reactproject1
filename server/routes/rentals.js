@@ -6,7 +6,7 @@ const  {
     createRental
  } = require('../controllers/rentals');
 const { onlyAuthUser } = require('../controllers/users');
-// GET
+// /api/v1/rentals?city="berlin"
 router.get("/",getRentals);
 router.get("/:rentalId",getRentalById);
 // POST

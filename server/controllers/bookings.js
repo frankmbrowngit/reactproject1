@@ -1,6 +1,7 @@
 const Booking = require('../models/booking.js');
 const dayjs = require('dayjs');
-
+const Rental = require('../models/rental');
+const User = require('../models/user');
 exports.getBookings = async (req, res) => {
     const { rental } = req.query;
     const query = rental ? Booking.find({rental}) : Booking.find({});
@@ -26,6 +27,21 @@ exports.getUserBookings = async (req,res) => {
     }
 }
 
+exports.getReceivedBookings = async (req,res) => {
+    const { user } = res.locals;
+    try {
+        const rentals = await Rental.find({owner: user},'_id')
+        console.log(rentals);
+        const rentalIds = rentals.map(r => r.id);
+        // find all of the bookings in rentalIds
+        const bookings = await Booking.find({rental: {$in: rentalIds}})
+        .populate('user','-password')
+        .populate('rental');
+        return res.json(bookings);
+    } catch(error) {
+        return res.mongoError(error);
+    }
+}
   
 exports.createBooking = async (req,res) => {
     const bookingData = req.body;
@@ -80,4 +96,38 @@ function checkIfBookingIsValid(pendingBooking,rentalBookings) {
         })
     }
     return isValid;
+}
+
+exports.deleteBooking = async (req,res) => {
+    const { bookingId } = req.params;
+    const { user } = res.locals;
+    try {
+        const booking = await Booking.findById(bookingId).populate('user');
+        if (booking.user.id !== user.id) {
+            return res.sendApiError(
+                {
+                    title: "Invalid User/Booking Combo",
+                    detail: 'Booking Owner must be the One To Delete Booking'
+                })
+        } else if (Date.now().getTime() > booking.startAt) {
+            return res.sendApiError(
+                {
+                    title: "Booking Already Started",
+                    detail: 'You cannot delete a booking that has already started'
+                })
+        }
+
+
+    } catch(error) {
+        return res.mongoError(error);
+    }
+}
+
+exports.checkIt = async (req,res) => {
+    try {
+        const bookings = await Booking.find({}).populate('user');
+        return res.json(bookings);
+    } catch(error) {
+        return res.mongoError(error);
+    }
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { isExpired, decodeToken } from "react-jwt";
 class AxiosService {
     axiosInstance = null;
     constructor() {
@@ -15,7 +15,6 @@ class AxiosService {
             const token = localStorage.getItem('bwm_token');
             if (token) {
                 config.headers.Authorization =  `Bearer ${token}`;
-                
             }
             return config;
         });

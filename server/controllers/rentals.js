@@ -13,6 +13,20 @@ exports.getRentals = async (req,res) => { // (request, response)
     }
 };
 
+'GET: /api/v1/rentals/me'
+exports.getUserRentals = async (req,res) => {
+    const user = res.locals.user;
+    const query = user ? {owner: user} : {};
+    try {
+        const rentals = await Rental.find(query);
+        return res.json(rentals);
+    } catch(error) {
+        return res.mongoError(error);
+    }
+}
+
+
+
 exports.getRentalById = async (req,res) => { // (request, response)
     const rentalId  = req.params.rentalId;
     try {
